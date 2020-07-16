@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject FPSCamers;
+
+    [SerializeField]
+    TextMeshProUGUI playerNameText;
 
     #region Unity methods
 
@@ -23,12 +27,19 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             transform.GetComponent<MovementController>().enabled = false;
             FPSCamers.GetComponent<Camera>().enabled = false;
         }
+        SetPlayerUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    #endregion
+
+    #region Private Methods
+
+    void SetPlayerUI()
     {
-        
+        if (playerNameText != null)
+        {
+            playerNameText.text = photonView.Owner.NickName;
+        }
     }
 
     #endregion
