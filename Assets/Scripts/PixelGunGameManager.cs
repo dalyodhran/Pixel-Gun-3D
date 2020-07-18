@@ -3,11 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class PixelGunGameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     GameObject playerPrefab;
+
+    public static PixelGunGameManager instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     #region Unity methods
     // Start is called before the first frame update
@@ -41,6 +56,16 @@ public class PixelGunGameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log(newPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name + " " + PhotonNetwork.CurrentRoom.Players.Count);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("GameLauncherScene");
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 
     #endregion
