@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.UI;
 
-public class TackingDamage : MonoBehaviour
+public class TackingDamage : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     Image healthBar;
@@ -43,6 +43,9 @@ public class TackingDamage : MonoBehaviour
 
     void Die()
     {
-
+        if (photonView.IsMine)
+        {
+            PixelGunGameManager.instance.LeaveRoom();
+        }
     }
 }
